@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание нового фильма</title>
+    <style>
+        body {
+            font-family: Georgia, sans-serif;
+            background-color: #f0f4f8; /* Светлый фон */
+            color: #333;
+            margin: 0; /* Убираем отступы по умолчанию */
+            padding: 0; /* Убираем отступы по умолчанию */
+        }
+
+        .container {
+            max-width: 600px; /* Уменьшена ширина для формы */
+            margin: 50px auto; /* Центрируем контейнер с отступом сверху */
+            padding: 20px;
+            background-color: #ffffff; /* Белый фон для контейнера */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff; /* Синий цвет заголовка */
+            text-align: center;
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px; /* Отступ между меткой и полем ввода */
+            font-weight: bold; /* Жирный шрифт для меток */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        textarea,
+        select,
+        input[type="number"] {
+            width: 100%; /* Полная ширина */
+            padding: 10px; /* Увеличиваем отступы для полей ввода */
+            margin-bottom: 15px; /* Отступ между полями */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Учитывать отступы и границы в ширине */
+            font-size: 1em; /* Увеличиваем размер шрифта */
+        }
+
+        .error-message {
+            color: red; /* Красный цвет для сообщений об ошибках */
+            font-size: 0.9em; /* Уменьшенный размер шрифта для сообщений об ошибках */
+            margin-top: -10px; /* Отрицательный отступ для сжатия */
+            margin-bottom: 10px; /* Отступ снизу */
+        }
+
+        .button {
+            display: block; /* Делаем кнопку блочной */
+            width: 100%; /* Ширина кнопки 100% */
+            padding: 15px; /* Увеличиваем отступы для кнопки */
+            background-color: #007bff; /* Синий цвет кнопки */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 1.1em; /* Увеличиваем размер шрифта */
+            margin-bottom: 15px; /* Отступ снизу */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Темно-синий цвет кнопки при наведении */
+        }
+
+        .button2 {
+            display: block; /* Делаем кнопку блочной */
+            width: 95%; /* Ширина кнопки 100% */
+            padding: 15px; /* Увеличиваем отступы для кнопки */
+            background-color: #add8e6; /* Светло-синий цвет для второй кнопки */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 1.1em; /* Увеличиваем размер шрифта */
+        }
+
+        .button2:hover {
+            background-color: #87ceeb; /* Светло-синий цвет кнопки при наведении */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="container">
+        <h1>Создание фильма</h1>
+
+        <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/films/new}" th:object="${film}" method="post">
+            <div class="form-group">
+                <label for="name">Название фильма:</label>
+                <input type="text" id="name" class="form-control" th:field="*{name}"/>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <textarea id="description" class="form-control" th:field="*{description}" rows="4"></textarea>
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                      class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Жанр:</label>
+                <select id="genre" class="form-control" th:field="*{genre}">
+                    <option value="" disabled selected>Выберите жанр</option>
+                    <option value="COMEDY" th:text="'Комедия'"></option>
+                    <option value="DRAMA" th:text="'Драма'"></option>
+                    <option value="ROMANCE" th:text="'Мелодрама'"></option>
+                    <option value="SCIENCE_FICTION" th:text="'Научная фантастика'"></option>
+                    <option value="FANTASY" th:text="'Фэнтези'"></option>
+                    <option value="MUSICAL" th:text="'Мюзикл'"></option>
+                    <option value="HORROR" th:text="'Ужасы'"></option>
+                    <option value="CARTOON" th:text="'Мультфильм'"></option>
+                    <option value="SERIES" th:text="'Сериал'"></option>
+                    <option value="DETECTIVE" th:text="'Детектив'"></option>
+                    <option value="THRILLER" th:text="'Триллер'"></option>
+                    <option value="ACTION" th:text="'Боевик'"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Продолжительность (минуты):</label>
+                <input type="number" id="duration" class="form-control" th:field="*{duration}"/>
+                <span th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="releaseDate">Дата релиза:</label>
+                <input type="date" id="releaseDate" class="form-control" th:field="*{releaseDate}"/>
+                <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"
+                      class="error-message"></span>
+            </div>
+
+            <div>
+                <button class="button" type="submit">Создать</button>
+            </div>
+            <div>
+                <a class="button2" th:href="@{/films}">Вернуться к списку фильмов</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
