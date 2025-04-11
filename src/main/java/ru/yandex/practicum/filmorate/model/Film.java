@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * Film.
- */
 @Data
 @Entity
 @Table(name = "films")
