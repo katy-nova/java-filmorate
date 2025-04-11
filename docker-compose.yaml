@@ -1,0 +1,32 @@
+services:
+  backend:
+    image: filmorate
+    build:
+      context: .
+    depends_on:
+      base:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://base:5432/film_project
+      SPRING_DATA_USERNAME: postgres
+      SPRING_DATA_PASSWORD: postgres
+    ports:
+      - "8888:8080"
+  base:
+    image: postgres:17.0
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: film_project
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+    ports:
+      - "5433:5432"
+volumes:
+  db-data:

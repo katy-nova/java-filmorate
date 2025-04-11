@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Обновление данных пользователя</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif; /* Изменённый шрифт на Georgia */
+            background-color: #f0f4f8; /* Светлый фон */
+            color: #333;
+            margin: 0; /* Убираем отступы у body */
+            padding: 0; /* Убираем отступы у body */
+        }
+
+        .container {
+            max-width: 600px; /* Уменьшена ширина для контейнера */
+            margin: 20px auto; /* Центрирование с отступом сверху */
+            padding: 20px;
+            background-color: #ffffff; /* Белый фон для контейнера */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff; /* Синий цвет заголовка */
+            text-align: center;
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+
+        .error-message {
+            color: red; /* Цвет сообщения об ошибке */
+            font-size: 0.9em; /* Размер шрифта для ошибок */
+            margin-top: 5px; /* Отступ сверху */
+        }
+
+        form div {
+            margin-bottom: 15px; /* Отступы между полями формы */
+        }
+
+        label {
+            display: block; /* Блочный элемент для меток */
+            margin-bottom: 5px; /* Отступ снизу для меток */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"] {
+            width: 100%; /* Ширина полей ввода 100% */
+            padding: 10px; /* Отступы внутри полей */
+            border: 1px solid #ccc; /* Цвет границы */
+            border-radius: 4px; /* Закругленные углы */
+            box-sizing: border-box; /* Учитывать отступы и границы в ширине */
+        }
+
+        .button {
+            display: block; /* Делаем кнопку блочной */
+            width: 100%; /* Ширина кнопки 100% */
+            padding: 15px; /* Увеличиваем отступы для кнопки */
+            background-color: #007bff; /* Синий цвет кнопки */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 1.1em; /* Увеличиваем размер шрифта */
+            margin-top: 15px; /* Отступ сверху */
+            box-sizing: border-box; /* Учитывать отступы и границы в ширине */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Темно-синий цвет кнопки при наведении */
+        }
+
+        .button2 {
+            display: block; /* Делаем кнопку блочной */
+            width: 100%; /* Ширина кнопки 100% */
+            padding: 15px; /* Увеличиваем отступы для кнопки */
+            background-color: #add8e6; /* Светло-синий цвет для второй кнопки */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 1.1em; /* Увеличиваем размер шрифта */
+            margin-top: 10px; /* Отступ сверху */
+            box-sizing: border-box; /* Учитывать отступы и границы в ширине */
+        }
+
+        .button2:hover {
+            background-color: #5a6268; /* Темно-серый цвет кнопки при наведении */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Обновление данных пользователя</h1>
+
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/users/update/{id}(id=${user.id})}" th:object="${user}" method="post">
+        <div>
+            <label for="name">Имя пользователя:</label>
+            <input type="text" id="name" th:field="*{name}"/>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
+        </div>
+
+        <div>
+            <label for="login">Логин:</label>
+            <input type="text" id="login" th:field="*{login}"/>
+            <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="error-message"></span>
+        </div>
+
+
+        <div>
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" th:field="*{email}"/>
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></span>
+        </div>
+
+        <div>
+            <label for="birthday">Дата рождения:</label>
+            <input type="date" id="birthday" th:field="*{birthday}"/>
+            <span th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}" class="error-message"></span>
+        </div>
+
+        <div>
+            <button class="button" type="submit">Обновить</button>
+        </div>
+    </form>
+    <div>
+        <a class="button2" th:href="@{/users/{id}(id=${user.id})}">Вернуться информации о пользователе</a>
+    </div>
+</div>
+</body>
+</html>

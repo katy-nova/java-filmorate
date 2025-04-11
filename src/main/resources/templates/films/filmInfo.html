@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о фильме</title>
+    <style>
+        body {
+            font-family: Georgia, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+            display: flex; /* Используем flexbox для выравнивания кнопок */
+            gap: 10px;
+        }
+
+        .button, .button2 {
+            padding: 10px 15px;
+            margin-right: 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF; /* Пример цвета */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button2 {
+            background-color: #dc3545; /* Красный цвет для удаления */
+        }
+
+        .reviews-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .review-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${film.name}"></h1>
+
+    <div class="info">
+        <p><strong>ID:</strong> <span th:text="${film.id}"></span></p>
+        <p><strong>Рейтинг:</strong> <span th:text="${film.rating}"></span> на основании
+            <span th:text="${numberOfReviews}"></span> отзывов</p>
+        <p><strong>Описание:</strong> <span th:text="${film.description}"></span></p>
+        <p><strong>Жанр:</strong> <span th:text="${film.genre.getDisplayName()}"></span></p>
+        <p><strong>Дата релиза:</strong> <span th:text="${film.releaseDate}"></span></p>
+        <p><strong>Продолжительность:</strong> <span th:text="${film.duration}"></span>минут</p>
+    </div>
+
+    <div class="button-group">
+        <a class="button" th:href="@{/films}">Вернуться к списку фильмов</a>
+        <a class="button" th:href="@{/films/update/{id}(id=${film.id})}">Обновить данные фильма</a>
+        <a class="button" th:href="@{/films/{id}/review(id=${film.id})}">Добавить отзыв</a>
+    </div>
+
+    <div class="delete-button">
+        <form th:action="@{/films/delete}" method="post"
+              onsubmit="return confirm('Вы уверены, что хотите удалить фильм?');">
+            <input type="hidden" name="id" th:value="${film.id}"/>
+            <button type="submit" class="button2">Удалить</button>
+        </form>
+    </div>
+
+    <h2>Отзывы:</h2>
+    <ul class="reviews-list">
+        <li th:each="entry : ${reviews.entrySet()}" class="review-item">
+            <strong th:text="${entry.key}"></strong> — Оценка: <span th:text="${entry.value.rating}"></span>
+            <br/>
+            <span th:text="${entry.value.text}"></span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
