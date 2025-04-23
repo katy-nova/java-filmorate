@@ -5,13 +5,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDate;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "users")
 @Entity
 public class User {
@@ -24,6 +27,7 @@ public class User {
 
     @NotEmpty(message = "Это поле обязательно для заполнения")
     @Pattern(regexp = "^\\S*$", message = "Поле не должно содержать пробелы")
+    @UniqueElements
     private String login;
 
     @NotEmpty(message = "Это поле обязательно для заполнения")

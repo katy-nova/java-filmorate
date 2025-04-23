@@ -8,8 +8,8 @@ services:
         condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://base:5432/film_project
-      SPRING_DATA_USERNAME: postgres
-      SPRING_DATA_PASSWORD: postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
     ports:
       - "8888:8080"
   base:
