@@ -33,6 +33,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String login;
 
+    private String password;
+
     @NotEmpty(message = "Это поле обязательно для заполнения")
     @Email(message = "Неверный формат email")
     private String email;

@@ -1,10 +1,11 @@
 package ru.yandex.practicum.filmorate.service;
 
-import ru.yandex.practicum.filmorate.dto.user.UserDto;
-import ru.yandex.practicum.filmorate.dto.user.UserDtoHtml;
-import ru.yandex.practicum.filmorate.dto.user.UserSimpleDto;
-import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
+import ru.yandex.practicum.filmorate.dto.jwt.JwtAuthenticationDto;
+import ru.yandex.practicum.filmorate.dto.jwt.RefreshTokenDto;
+import ru.yandex.practicum.filmorate.dto.jwt.UserCredentialDto;
+import ru.yandex.practicum.filmorate.dto.user.*;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 
 public interface UserService {
@@ -13,7 +14,7 @@ public interface UserService {
 
     List<UserDtoHtml> getUsersForHTML();
 
-    UserDto createUser(UserDto userDto);
+    UserDto createUser(UserCreateDto userDto);
 
     UserDto getUser(String email);
 
@@ -30,5 +31,9 @@ public interface UserService {
     List<UserSimpleDto> getFriends(Long userId);
 
     List<UserSimpleDto> getCommonFriends(Long userId, Long otherUserId);
+
+    JwtAuthenticationDto signIn(UserCredentialDto userCredentialDto) throws AuthenticationException;
+
+    JwtAuthenticationDto refreshToken(RefreshTokenDto refreshTokenDto) throws AuthenticationException;
 
 }

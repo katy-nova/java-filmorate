@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.dto.user.UserCreateDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDto;
 import ru.yandex.practicum.filmorate.dto.user.UserSimpleDto;
 import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
@@ -28,8 +29,8 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @PostMapping
-    public UserDto createUser(@Valid @RequestBody UserDto user) {
+    @PostMapping(path = "/registration")
+    public UserDto createUser(@Valid @RequestBody UserCreateDto user) {
         return userService.createUser(user);
     }
 

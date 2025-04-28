@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.dto.user.UserCreateDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDtoHtml;
 import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
@@ -47,7 +48,7 @@ public class UserWebController {
     }
 
     @PostMapping("/new")
-    public String createUser(@Valid @ModelAttribute("user") UserDto user, BindingResult result, Model model) {
+    public String createUser(@Valid @ModelAttribute("user") UserCreateDto user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             // Если есть ошибки валидации, возвращаемся на форму
             return "users/new";
