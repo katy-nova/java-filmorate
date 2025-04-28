@@ -86,7 +86,7 @@
 
     <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 
-    <form th:action="@{/films/{filmId}/review(filmId=${filmId})}" th:object="${review}" method="post">
+    <form th:action="@{/api/films/{filmId}/review(filmId=${filmId})}" th:object="${review}" method="post">
         <div>
             <input type="hidden" name="filmId" th:value="${filmId}"/>
         </div>
@@ -119,7 +119,7 @@
         </div>
     </form>
 
-    <a class="button2" th:href="@{/films/{filmId}(filmId=${review.filmId})}">Вернуться к списку фильмов</a>
+    <a class="button2" th:href="@{/api/films/{filmId}(filmId=${filmId})}">Вернуться к списку фильмов</a>
 </div>
 </body>
 </html>

@@ -5,18 +5,21 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "users")
 @Entity
+@EqualsAndHashCode(of = {"id"})
 public class User {
 
     @Id
@@ -27,14 +30,60 @@ public class User {
 
     @NotEmpty(message = "Это поле обязательно для заполнения")
     @Pattern(regexp = "^\\S*$", message = "Поле не должно содержать пробелы")
-    @UniqueElements
+    @Column(unique = true, nullable = false)
     private String login;
 
     @NotEmpty(message = "Это поле обязательно для заполнения")
     @Email(message = "Неверный формат email")
     private String email;
 
-    @Past
+    @Past(message = "Дата рождения должна быть в прошлом")
     private LocalDate birthday;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Review> reviews = new HashSet<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private Set<User> friends = new HashSet<>();
+
+    @ManyToMany(mappedBy = "friends") // Обратная сторона связи
+    private Set<User> friendOf = new HashSet<>();
+
+    public void addFriend(User friend) {
+        this.friends.add(friend);
+        friend.getFriends().add(this);
+        friend.getFriendOf().add(this);
+        this.friendOf.add(friend);
+    }
+
+    public void removeFriend(User friend) {
+        this.friends.remove(friend);
+        friend.getFriends().remove(this);
+        friend.getFriendOf().remove(this);
+        this.friendOf.remove(friend);
+    }
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+    private Set<Film> likedFilms = new HashSet<>();
+
+    public void likeFilm(Film film) {
+        this.likedFilms.add(film);
+        film.getLikedBy().add(this);
+    }
+
+    public void unlikeFilm(Film film) {
+        this.likedFilms.remove(film);
+        film.getLikedBy().remove(this);
+    }
 
 }

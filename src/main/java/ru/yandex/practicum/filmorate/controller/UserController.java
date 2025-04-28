@@ -1,54 +1,61 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.dto.user.UserDto;
+import ru.yandex.practicum.filmorate.dto.user.UserSimpleDto;
+import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
 import ru.yandex.practicum.filmorate.service.UserService;
 
-import java.time.LocalDate;
 import java.util.List;
 
 //обычный контроллер как в тз
 @RestController
-@RequestMapping(path = "api/users")
+@RequestMapping(path = "/users")
 @AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<UserDto> getUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping(path = "/{id}")
-    public User getUserById(@PathVariable("id") Long id) {
+    public UserDto getUserById(@PathVariable("id") Long id) {
         return userService.getUser(id);
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User user) {
+    public UserDto createUser(@Valid @RequestBody UserDto user) {
         return userService.createUser(user);
     }
 
-    @PutMapping // должен ли метод пут возвращать юзера или он будет войд?
-    public User updateUser(@Valid @RequestBody User user) {
-        return userService.updateUser(user);
+    @PutMapping(path = "/{id}")
+    public UserDto updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDto user) {
+        return userService.updateUser(id, user);
     }
 
-    @PutMapping(path = "/{id}")
-    public User updateUser
-            (@PathVariable("id") Long id,
-             @Email @RequestParam(required = false) String email,
-             @RequestParam(required = false) String name,
-             @NotEmpty @Pattern(regexp = "^\\S*$", message = "Поле не должно содержать пробелы")
-             @RequestParam(required = false) String login,
-             @Past @RequestParam(required = false) LocalDate birthday) {
-        return userService.updateUser(id, email, name, login, birthday);
+    @PutMapping(path = "/{userId}/friends/{friendId}")
+    public UserDto addFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        return userService.addFriend(userId, friendId);
     }
+
+    @DeleteMapping(path = "/{userId}/friends/{friendId}")
+    public void deleteFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        userService.removeFriend(userId, friendId);
+    }
+
+    @GetMapping(path = "/{id}/friends")
+    public List<UserSimpleDto> getFriends(@PathVariable Long id) {
+        return userService.getFriends(id);
+    }
+
+    @GetMapping(path = "/{id}/friends/common/{otherId}")
+    public List<UserSimpleDto> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
+        return userService.getCommonFriends(id, otherId);
+    }
+
 }

@@ -95,7 +95,7 @@
 
     <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 
-    <form th:action="@{/users/new}" th:object="${user}" method="post">
+    <form th:action="@{/api/users/new}" th:object="${user}" method="post">
         <div>
             <label for="name">Имя пользователя:</label>
             <input type="text" id="name" th:field="*{name}"/>
@@ -126,7 +126,7 @@
         </div>
     </form>
 
-    <a class="button2" th:href="@{/users}">Вернуться к списку пользователей</a>
+    <a class="button2" th:href="@{/api/users}">Вернуться к списку пользователей</a>
 </div>
 
 </body>

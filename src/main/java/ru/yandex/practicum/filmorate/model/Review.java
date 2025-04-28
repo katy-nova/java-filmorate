@@ -19,16 +19,19 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Это поле не может быть пустым")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @NotNull
-    private Long filmId;
+    @ManyToOne
+    @JoinColumn(name = "film_id", nullable = false)
+    private Film film;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String text;
 
     @Column(precision = 3, scale = 1)
+    @NotNull
     @DecimalMin("0.0")
     @DecimalMax("10.0")
     private BigDecimal rating;

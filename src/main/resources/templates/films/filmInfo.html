@@ -57,7 +57,7 @@
     <h1 th:text="${film.name}"></h1>
 
     <div class="info">
-        <p><strong>ID:</strong> <span th:text="${film.id}"></span></p>
+        <p><strong>ID:</strong> <span th:text="${filmId}"></span></p>
         <p><strong>Рейтинг:</strong> <span th:text="${film.rating}"></span> на основании
             <span th:text="${numberOfReviews}"></span> отзывов</p>
         <p><strong>Описание:</strong> <span th:text="${film.description}"></span></p>
@@ -67,15 +67,15 @@
     </div>
 
     <div class="button-group">
-        <a class="button" th:href="@{/films}">Вернуться к списку фильмов</a>
-        <a class="button" th:href="@{/films/update/{id}(id=${film.id})}">Обновить данные фильма</a>
-        <a class="button" th:href="@{/films/{id}/review(id=${film.id})}">Добавить отзыв</a>
+        <a class="button" th:href="@{/api/films}">Вернуться к списку фильмов</a>
+        <a class="button" th:href="@{/api/films/update/{id}(id=${filmId})}">Обновить данные фильма</a>
+        <a class="button" th:href="@{/api/films/{id}/review(id=${filmId})}">Добавить отзыв</a>
     </div>
 
     <div class="delete-button">
-        <form th:action="@{/films/delete}" method="post"
+        <form th:action="@{/api/films/delete}" method="post"
               onsubmit="return confirm('Вы уверены, что хотите удалить фильм?');">
-            <input type="hidden" name="id" th:value="${film.id}"/>
+            <input type="hidden" name="id" th:value="${filmId}"/>
             <button type="submit" class="button2">Удалить</button>
         </form>
     </div>

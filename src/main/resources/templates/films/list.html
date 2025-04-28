@@ -95,14 +95,14 @@
         <tbody>
         <tr th:each="film : ${films}">
             <td th:text="${film.id}"></td>
-            <td><a th:href="@{/films/{id}(id=${film.id})}" th:text="${film.name}"></a></td>
+            <td><a th:href="@{/api/films/{id}(id=${film.id})}" th:text="${film.name}"></a></td>
             <td th:text="${film.genre.getDisplayName()}"></td>
             <td th:text="${film.releaseDate}"></td>
             <td th:class="${film.rating > 8.0} ? 'high-rating' : ''" th:text="${film.rating}"></td>
         </tr>
         </tbody>
     </table>
-    <a href="/films/new" class="button">Добавить новый фильм</a>
+    <a href="/api/films/new" class="button">Добавить новый фильм</a>
 </div>
 </body>
 </html>
