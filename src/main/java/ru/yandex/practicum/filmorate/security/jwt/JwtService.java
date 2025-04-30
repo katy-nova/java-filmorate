@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.dto.jwt.JwtAuthenticationDto;
+import ru.yandex.practicum.filmorate.security.CustomUserDetails;
 
 import javax.crypto.SecretKey;
 
@@ -23,10 +24,10 @@ public class JwtService {
     @Value("adccdc862b0e2fb861ffef80a61b49bd8e3cbbccf771ad937d4ed376b9dbff9c")
     private String jwtSecret;
 
-    public JwtAuthenticationDto generateAuthenticationToken(String login) {
+    public JwtAuthenticationDto generateAuthenticationToken(CustomUserDetails customUserDetails) {
         JwtAuthenticationDto jwtAuthenticationDto = new JwtAuthenticationDto();
-        jwtAuthenticationDto.setToken(generateJwtToken(login));
-        jwtAuthenticationDto.setRefreshToken(generateRefreshToken(login));
+        jwtAuthenticationDto.setToken(generateJwtToken(customUserDetails));
+        jwtAuthenticationDto.setRefreshToken(generateRefreshToken(customUserDetails));
         return jwtAuthenticationDto;
     }
 
@@ -61,26 +62,26 @@ public class JwtService {
         return claims.getSubject();
     }
 
-    public JwtAuthenticationDto refreshBaseToken(String login, String refreshToken) {
+    public JwtAuthenticationDto refreshBaseToken(CustomUserDetails customUserDetails, String refreshToken) {
         JwtAuthenticationDto jwtAuthenticationDto = new JwtAuthenticationDto();
-        jwtAuthenticationDto.setToken(generateJwtToken(login));
+        jwtAuthenticationDto.setToken(generateJwtToken(customUserDetails));
         jwtAuthenticationDto.setRefreshToken(refreshToken);
         return jwtAuthenticationDto;
     }
 
-    private String generateJwtToken(String login) {
+    private String generateJwtToken(CustomUserDetails customUserDetails) {
         Date date = Date.from(LocalDateTime.now().plusMinutes(15).atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
-                .subject(login)
+                .subject(customUserDetails.getUsername())
                 .expiration(date)
                 .signWith(getSignInKey())
                 .compact();
     }
 
-    private String generateRefreshToken(String login) {
+    private String generateRefreshToken(CustomUserDetails customUserDetails) {
         Date date = Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
-                .subject(login)
+                .subject(customUserDetails.getUsername())
                 .expiration(date)
                 .signWith(getSignInKey())
                 .compact();
