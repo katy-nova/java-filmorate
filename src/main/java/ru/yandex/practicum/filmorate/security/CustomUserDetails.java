@@ -5,13 +5,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
-import java.util.List;
 
-public record CustomUserDetails(User user) implements UserDetails {
+public record CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities) implements UserDetails {
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override

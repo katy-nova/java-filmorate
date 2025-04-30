@@ -8,12 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.yandex.practicum.filmorate.security.jwt.JwtFilter;
+
+import static ru.yandex.practicum.filmorate.model.Role.ADMIN;
+import static ru.yandex.practicum.filmorate.model.Role.USER;
 
 @RequiredArgsConstructor
 @Configuration
@@ -27,7 +29,10 @@ public class SecurityConfig {
         http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/users/registration", "/auth/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/users/registration", "/auth/**").permitAll()
+                        .requestMatchers("/users/**").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers("/films/**").hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/**").authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

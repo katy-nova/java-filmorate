@@ -15,6 +15,8 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.repository.ReviewRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
+import ru.yandex.practicum.filmorate.security.CustomUserDetails;
+import ru.yandex.practicum.filmorate.security.CustomUserServiceImpl;
 import ru.yandex.practicum.filmorate.security.jwt.JwtService;
 
 import javax.naming.AuthenticationException;
@@ -35,6 +37,7 @@ public class UserServiceDB implements UserService {
     private final UserMapping userMapping;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserServiceImpl customUserService;
 
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream().map(userMapping::toDto).collect(Collectors.toList());
@@ -177,26 +180,29 @@ public class UserServiceDB implements UserService {
 
     @Override
     public JwtAuthenticationDto signIn(UserCredentialDto userCredentialDto) throws AuthenticationException {
-        User user = findByCredentials(userCredentialDto);
-        return jwtService.generateAuthenticationToken(user.getLogin());
+        CustomUserDetails customUserDetails = findCustomUserDetailsByCredentials(userCredentialDto);
+        return jwtService.generateAuthenticationToken(customUserDetails);
+
     }
 
     @Override
     public JwtAuthenticationDto refreshToken(RefreshTokenDto refreshTokenDto) throws AuthenticationException {
         String refreshToken = refreshTokenDto.getRefreshToken();
         if (refreshToken != null && jwtService.validateJwtToken(refreshToken)) {
-            User user = findByLogin(jwtService.getLoginFromToken(refreshToken));
-            return jwtService.refreshBaseToken(user.getLogin(), refreshToken);
+            String login = jwtService.getLoginFromToken(refreshToken);
+            CustomUserDetails customUserDetails = customUserService.loadUserByUsername(login);  // Используем CustomUserServiceImpl
+            return jwtService.refreshBaseToken(customUserDetails, refreshToken);
+
         }
         throw new AuthenticationException("Invalid refresh token");
     }
 
-    private User findByCredentials(UserCredentialDto userCredentialDto) throws AuthenticationException {
+    private CustomUserDetails findCustomUserDetailsByCredentials(UserCredentialDto userCredentialDto) throws AuthenticationException {
         Optional<User> maybeUser = userRepository.findByLogin(userCredentialDto.getLogin());
         if (maybeUser.isPresent()) {
             User user = maybeUser.get();
             if (passwordEncoder.matches(userCredentialDto.getPassword(), user.getPassword())) {
-                return user;
+                return customUserService.loadUserByUsername(user.getLogin());
             }
         }
         throw new AuthenticationException("Неверные логин или пароль");
