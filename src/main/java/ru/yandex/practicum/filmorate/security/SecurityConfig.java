@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +32,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/registration", "/auth/**").permitAll()
-                        .requestMatchers("/users/**").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers(HttpMethod.GET, "/films").permitAll()
+                        .requestMatchers("/users/admin/**").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers(HttpMethod.DELETE, "/films/{id}").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers(HttpMethod.PUT, "/films/{id}").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers(HttpMethod.POST, "/films").hasAuthority(ADMIN.getAuthority())
+                        .requestMatchers("/users/**").hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/films/**").hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/**").authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
