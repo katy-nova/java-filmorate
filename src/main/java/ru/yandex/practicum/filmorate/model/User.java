@@ -94,4 +94,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    public void makeAdmin() {
+        this.roles.add(Role.ADMIN);
+    }
+
+    public void makeUser() {
+        this.setRoles(Set.of(Role.USER));
+    }
 }

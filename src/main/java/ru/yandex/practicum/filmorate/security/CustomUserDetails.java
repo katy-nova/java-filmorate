@@ -24,23 +24,27 @@ public record CustomUserDetails(User user, Collection<? extends GrantedAuthority
         return user.getLogin();
     }
 
+    public Long getId() { // получаем айди для проверки
+        return user.getId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

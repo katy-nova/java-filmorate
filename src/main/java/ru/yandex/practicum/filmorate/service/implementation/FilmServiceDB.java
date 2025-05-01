@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.service.implementation;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.ReviewRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
+import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

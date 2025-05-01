@@ -1,25 +1,20 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.service.implementation;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.dto.jwt.JwtAuthenticationDto;
-import ru.yandex.practicum.filmorate.dto.jwt.RefreshTokenDto;
-import ru.yandex.practicum.filmorate.dto.jwt.UserCredentialDto;
 import ru.yandex.practicum.filmorate.dto.user.*;
 import ru.yandex.practicum.filmorate.dto.mapping.UserMapping;
 import ru.yandex.practicum.filmorate.exception.AlreadyExistsException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.model.Role;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.repository.ReviewRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
-import ru.yandex.practicum.filmorate.security.CustomUserDetails;
-import ru.yandex.practicum.filmorate.security.CustomUserServiceImpl;
-import ru.yandex.practicum.filmorate.security.jwt.JwtService;
+import ru.yandex.practicum.filmorate.service.UserService;
 
-import javax.naming.AuthenticationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -35,9 +30,7 @@ public class UserServiceDB implements UserService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final UserMapping userMapping;
-    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    private final CustomUserServiceImpl customUserService;
 
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream().map(userMapping::toDto).collect(Collectors.toList());
@@ -52,6 +45,8 @@ public class UserServiceDB implements UserService {
         checkEmail(user.getEmail());
         checkLogin(user.getLogin());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // по умолчанию всех регаем как юзеров, только другой админ может выдать права админа
+        user.setRoles(Set.of(Role.USER));
         if (user.getName() == null) {
             user.setName(user.getLogin());
             log.info("Для пользователя без имени установлено имя в соответствии с логином: {}", user.getLogin());
@@ -178,38 +173,4 @@ public class UserServiceDB implements UserService {
         return commonFriends.stream().map(userMapping::toDtoFriend).toList();
     }
 
-    @Override
-    public JwtAuthenticationDto signIn(UserCredentialDto userCredentialDto) throws AuthenticationException {
-        CustomUserDetails customUserDetails = findCustomUserDetailsByCredentials(userCredentialDto);
-        return jwtService.generateAuthenticationToken(customUserDetails);
-
-    }
-
-    @Override
-    public JwtAuthenticationDto refreshToken(RefreshTokenDto refreshTokenDto) throws AuthenticationException {
-        String refreshToken = refreshTokenDto.getRefreshToken();
-        if (refreshToken != null && jwtService.validateJwtToken(refreshToken)) {
-            String login = jwtService.getLoginFromToken(refreshToken);
-            CustomUserDetails customUserDetails = customUserService.loadUserByUsername(login);  // Используем CustomUserServiceImpl
-            return jwtService.refreshBaseToken(customUserDetails, refreshToken);
-
-        }
-        throw new AuthenticationException("Invalid refresh token");
-    }
-
-    private CustomUserDetails findCustomUserDetailsByCredentials(UserCredentialDto userCredentialDto) throws AuthenticationException {
-        Optional<User> maybeUser = userRepository.findByLogin(userCredentialDto.getLogin());
-        if (maybeUser.isPresent()) {
-            User user = maybeUser.get();
-            if (passwordEncoder.matches(userCredentialDto.getPassword(), user.getPassword())) {
-                return customUserService.loadUserByUsername(user.getLogin());
-            }
-        }
-        throw new AuthenticationException("Неверные логин или пароль");
-    }
-
-    private User findByLogin(String login) {
-        return userRepository.findByLogin(login)
-                .orElseThrow(() -> new NotFoundException(String.format("Пользователь с логином %s не найде", login)));
-    }
 }

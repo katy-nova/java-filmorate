@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.dto.user;
 
-import jakarta.validation.constraints.*;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.dto.film.FilmSimpleDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;

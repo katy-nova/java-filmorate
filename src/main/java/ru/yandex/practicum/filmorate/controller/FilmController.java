@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.dto.film.FilmCreateDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmDto;
@@ -9,7 +10,7 @@ import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.service.FilmServiceDB;
+import ru.yandex.practicum.filmorate.service.implementation.FilmServiceDB;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -51,8 +52,9 @@ public class FilmController {
         return filmService.updateFilm(id, film);
     }
 
-    @PostMapping(path = "/review")
-    public ReviewDto addReview(@RequestParam ReviewCreateDto review) {
+    @PostMapping(path = "/{userId}/review")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)") // если не указываю как PathVariable, не видит ее тут
+    public ReviewDto addReview(@PathVariable Long userId, @RequestBody ReviewCreateDto review) {
         return filmService.addReview(review);
     }
 
@@ -61,17 +63,20 @@ public class FilmController {
         filmService.deleteFilmById(id);
     }
 
-    @DeleteMapping(path = "/review/{id}")
-    public void deleteReview(@PathVariable Long id) {
+    @DeleteMapping(path = "/{userId}/review/{id}")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
+    public void deleteReview(@PathVariable Long id, @PathVariable Long userId) {
         filmService.deleteReview(id);
     }
 
     @PutMapping(path = "/{userId}/like/{filmId}")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
     public FilmDto addLike(@PathVariable Long userId, @PathVariable Long filmId) {
         return filmService.addLike(filmId, userId);
     }
 
     @DeleteMapping(path = "/{userId}/like/{filmId}")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
     public void deleteLike(@PathVariable Long userId, @PathVariable Long filmId) {
         filmService.deleteLike(filmId, userId);
     }
