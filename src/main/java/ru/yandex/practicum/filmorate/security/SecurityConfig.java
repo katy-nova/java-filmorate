@@ -40,7 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/films/**").hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/**").authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

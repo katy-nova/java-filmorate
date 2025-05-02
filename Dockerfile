@@ -3,7 +3,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 COPY src/main/resources ./src/main/resources
-RUN mvn clean package #-DskipTests
+RUN mvn clean package -DskipTests
 
 FROM amazoncorretto:21
 WORKDIR /app
