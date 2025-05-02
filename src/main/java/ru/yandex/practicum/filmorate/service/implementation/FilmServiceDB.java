@@ -37,10 +37,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class FilmServiceDB implements FilmService {
 
+    private static final LocalDate EARLIEST_DATE = LocalDate.of(1895, 12, 28);
     private final FilmRepository filmRepository;
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
-    private static final LocalDate EARLIEST_DATE = LocalDate.of(1895, 12, 28);
     private final FilmMapping filmMapping;
     private final ReviewMapping reviewMapping;
 
@@ -92,7 +92,7 @@ public class FilmServiceDB implements FilmService {
             oldFilm.setGenre(film.getGenre());
             log.info("Жанр фильма: {} успешно обновлен", oldFilm.getGenre());
         }
-        if ( film.getDuration() != null && film.getDuration() != 0 && !(film.getDuration().equals(oldFilm.getDuration()))) {
+        if (film.getDuration() != null && film.getDuration() != 0 && !(film.getDuration().equals(oldFilm.getDuration()))) {
             oldFilm.setDuration(film.getDuration());
             log.info("Продолжительность фильма: {} успешно обновлена", oldFilm.getDuration());
         }
@@ -203,7 +203,8 @@ public class FilmServiceDB implements FilmService {
 
     private User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> {String errorMessage = String.format("Пользователь с id '%s' не найден", id);
+                .orElseThrow(() -> {
+                    String errorMessage = String.format("Пользователь с id '%s' не найден", id);
                     log.error(errorMessage);
                     return new NotFoundException(errorMessage);
                 });

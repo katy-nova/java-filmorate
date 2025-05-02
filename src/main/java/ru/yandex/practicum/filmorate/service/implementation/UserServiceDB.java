@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.dto.user.*;
 import ru.yandex.practicum.filmorate.dto.mapping.UserMapping;
+import ru.yandex.practicum.filmorate.dto.user.*;
 import ru.yandex.practicum.filmorate.exception.AlreadyExistsException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Role;
@@ -58,10 +58,11 @@ public class UserServiceDB implements UserService {
 
     public UserDto getUser(String email) {
         return userRepository.findByEmail(email).map(userMapping::toDto)
-                .orElseThrow(() -> {String errorMessage = String.format("Пользователь с email '%s' не найден", email);
-            log.error(errorMessage);
-            return new NotFoundException(errorMessage);
-        });
+                .orElseThrow(() -> {
+                    String errorMessage = String.format("Пользователь с email '%s' не найден", email);
+                    log.error(errorMessage);
+                    return new NotFoundException(errorMessage);
+                });
     }
 
     public UserDto getUser(Long id) {
@@ -71,10 +72,11 @@ public class UserServiceDB implements UserService {
     public void deleteUser(Long id) {
         log.debug("Попытка удалить пользователя с ID: {}", id);
         User user = userRepository.findById(id)
-                .orElseThrow(() -> {String errorMessage = String.format("Пользователь с id '%s' не найден", id);
-            log.error(errorMessage);
-            return new NotFoundException(errorMessage);
-        });
+                .orElseThrow(() -> {
+                    String errorMessage = String.format("Пользователь с id '%s' не найден", id);
+                    log.error(errorMessage);
+                    return new NotFoundException(errorMessage);
+                });
         log.debug("Попытка удалить все отзывы пользователя с ID: {}", id);
         reviewRepository.deleteAllByUserId(id);
         log.info("Отзывы успешно удалены");
@@ -132,7 +134,8 @@ public class UserServiceDB implements UserService {
 
     private User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> {String errorMessage = String.format("Пользователь с id '%s' не найден", id);
+                .orElseThrow(() -> {
+                    String errorMessage = String.format("Пользователь с id '%s' не найден", id);
                     log.error(errorMessage);
                     return new NotFoundException(errorMessage);
                 });

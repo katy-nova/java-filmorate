@@ -11,7 +11,6 @@ import ru.yandex.practicum.filmorate.dto.jwt.JwtAuthenticationDto;
 import ru.yandex.practicum.filmorate.security.CustomUserDetails;
 
 import javax.crypto.SecretKey;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;

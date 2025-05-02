@@ -55,6 +55,18 @@ public class User {
 
     @ManyToMany(mappedBy = "friends") // Обратная сторона связи
     private Set<User> friendOf = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+    private Set<Film> likedFilms = new HashSet<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     public void addFriend(User friend) {
         this.friends.add(friend);
@@ -70,14 +82,6 @@ public class User {
         this.friendOf.remove(friend);
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_likes",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "film_id")
-    )
-    private Set<Film> likedFilms = new HashSet<>();
-
     public void likeFilm(Film film) {
         this.likedFilms.add(film);
         film.getLikedBy().add(this);
@@ -87,12 +91,6 @@ public class User {
         this.likedFilms.remove(film);
         film.getLikedBy().remove(this);
     }
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
 
     public void makeAdmin() {
         this.roles.add(Role.ADMIN);

@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.dto.review;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
