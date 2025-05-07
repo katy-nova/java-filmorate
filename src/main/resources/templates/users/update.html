@@ -101,7 +101,7 @@
 
     <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 
-    <form th:action="@{/users/update/{id}(id=${user.id})}" th:object="${user}" method="post">
+    <form th:action="@{/api/users/update/{id}(id=${id})}" th:object="${user}" method="post">
         <div>
             <label for="name">Имя пользователя:</label>
             <input type="text" id="name" th:field="*{name}"/>
@@ -132,7 +132,7 @@
         </div>
     </form>
     <div>
-        <a class="button2" th:href="@{/users/{id}(id=${user.id})}">Вернуться информации о пользователе</a>
+        <a class="button2" th:href="@{/api/users/{id}(id=${id})}">Вернуться информации о пользователе</a>
     </div>
 </div>
 </body>

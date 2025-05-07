@@ -14,11 +14,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Optional<Review> findByUserIdAndFilmId(Long userId, Long filmId);
 
     @Modifying
-    @Query("DELETE FROM Review r WHERE r.userId = :userId")
+    @Query("DELETE FROM Review r WHERE r.user.id = :userId")
     void deleteAllByUserId(@Param("userId") Long userId);
 
     @Modifying
-    @Query("DELETE FROM Review r WHERE r.filmId = :filmId")
+    @Query("DELETE FROM Review r WHERE r.film.id = :filmId")
     void deleteAllByFilmId(@Param("filmId") Long filmId);
 
     List<Review> findAllByFilmId(Long filmId);

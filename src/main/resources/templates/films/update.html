@@ -107,7 +107,7 @@
     <h1>Обновление информации о фильме</h1>
     <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 
-    <form th:action="@{/films/update/{id}(id=${film.id})}" th:object="${film}" method="post">
+    <form th:action="@{/api/films/update/{id}(id=${filmId})}" th:object="${film}" method="post">
         <div class="form-group">
             <label for="name">Название фильма:</label>
             <input type="text" id="name" class="form-control" th:field="*{name}"/>
@@ -157,7 +157,7 @@
         </div>
     </form>
     <div>
-        <a class="button2" th:href="@{/films}">Вернуться к списку фильмов</a>
+        <a class="button2" th:href="@{/api/films}">Вернуться к списку фильмов</a>
     </div>
 </div>
 </body>

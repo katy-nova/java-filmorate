@@ -84,19 +84,19 @@
     <h1>Информация о пользователе</h1>
 
     <div class="info">
-        <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+        <p><strong>ID:</strong> <span th:text="${id}"></span></p>
         <p><strong>Логин:</strong> <span th:text="${user.login}"></span></p>
         <p><strong>Имя пользователя:</strong> <span th:text="${user.name}"></span></p>
         <p><strong>Электронная почта:</strong> <span th:text="${user.email}"></span></p>
         <p><strong>Дата рождения:</strong> <span th:text="${user.birthday}"></span></p>
     </div>
 
-    <a class="button" th:href="@{/users}">Вернуться к списку пользователей</a>
-    <a class="button" th:href="@{/users/update/{id}(id=${user.id})}">Обновить данные пользователя</a>
+    <a class="button" th:href="@{/api/users}">Вернуться к списку пользователей</a>
+    <a class="button" th:href="@{/api/users/update/{id}(id=${id})}">Обновить данные пользователя</a>
 
-    <form th:action="@{/users/delete}" method="post" onsubmit="return confirm(
+    <form th:action="@{/api/users/delete}" method="post" onsubmit="return confirm(
     'Вы уверены, что хотите удалить пользователя?');">
-        <input type="hidden" name="id" th:value="${user.id}"/>
+        <input type="hidden" name="id" th:value="${id}"/>
         <button type="submit" class="button2">Удалить</button>
     </form>
 </div>
