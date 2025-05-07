@@ -8,7 +8,7 @@ public interface UserService {
 
     List<UserDto> getAllUsers();
 
-    List<UserDtoHtml> getUsersForHTML();
+    List<UserHtmlDto> getUsersForHTML();
 
     UserDto createUser(UserCreateDto userDto);
 

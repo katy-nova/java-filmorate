@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.dto.film.FilmCreateDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmDto;
-import ru.yandex.practicum.filmorate.dto.film.FilmDtoHtml;
+import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -27,7 +27,7 @@ public class FilmWebController {
 
     @GetMapping
     public String getFilms(Model model) {
-        List<FilmDtoHtml> films = filmService.getAllFilmsHtml();
+        List<FilmHtmlDto> films = filmService.getAllFilmsHtml();
         model.addAttribute("films", films);
         return "films/list";
     }

@@ -75,6 +75,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/admin/make/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')") // вообще этот путь я указывала в конфигураторе, как только для админов
     public ResponseEntity<String> makeAdmin(@PathVariable Long id) {
         authenticationService.makeAdmin(id);
         String message = String.format("Для пользователя с id: %s установлены права администратора", id);
@@ -83,6 +84,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/admin/remove/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> removeAdmin(@PathVariable Long id) {
         authenticationService.makeUser(id);
         String message = String.format("Для пользователя с id: %s аннулированы права администратора", id);

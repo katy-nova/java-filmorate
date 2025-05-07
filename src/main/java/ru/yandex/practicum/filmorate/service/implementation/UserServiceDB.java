@@ -36,7 +36,7 @@ public class UserServiceDB implements UserService {
         return userRepository.findAll().stream().map(userMapping::toDto).collect(Collectors.toList());
     }
 
-    public List<UserDtoHtml> getUsersForHTML() {
+    public List<UserHtmlDto> getUsersForHTML() {
         return userRepository.findAll().stream().map(userMapping::toDtoHtml).collect(Collectors.toList());
     }
 

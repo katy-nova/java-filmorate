@@ -45,6 +45,6 @@ public record CustomUserDetails(User user, Collection<? extends GrantedAuthority
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isEnabled();
     }
 }

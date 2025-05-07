@@ -20,7 +20,7 @@ public class AuthController {
     private final AuthenticationService authService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<JwtAuthenticationDto> singIn(@RequestBody UserCredentialDto userCredential) throws AuthenticationException {
+    public ResponseEntity<JwtAuthenticationDto> signIn(@RequestBody UserCredentialDto userCredential) throws AuthenticationException {
         try {
             JwtAuthenticationDto jwtAuthenticationDto = authService.signIn(userCredential);
             return ResponseEntity.ok(jwtAuthenticationDto);

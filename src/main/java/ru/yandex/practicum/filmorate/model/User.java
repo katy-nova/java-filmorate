@@ -42,6 +42,8 @@ public class User {
     @Past(message = "Дата рождения должна быть в прошлом")
     private LocalDate birthday;
 
+    private boolean enabled = true;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Review> reviews = new HashSet<>();
 

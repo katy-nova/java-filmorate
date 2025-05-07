@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import ru.yandex.practicum.filmorate.dto.film.FilmCreateDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmDto;
-import ru.yandex.practicum.filmorate.dto.film.FilmDtoHtml;
+import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
@@ -17,7 +17,7 @@ public interface FilmService {
 
     List<FilmDto> getAllFilms();
 
-    List<FilmDtoHtml> getAllFilmsHtml();
+    List<FilmHtmlDto> getAllFilmsHtml();
 
     FilmDto getFilmById(Long id);
 

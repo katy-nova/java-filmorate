@@ -37,6 +37,9 @@ public class Film {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
+    @Enumerated(EnumType.STRING)
+    private MPA mpaRating;
+
     @Column(precision = 3, scale = 1)
     @DecimalMin("0.0")
     @DecimalMax("10.0")

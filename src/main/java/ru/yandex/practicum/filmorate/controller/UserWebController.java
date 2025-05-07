@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.dto.user.UserCreateDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDto;
-import ru.yandex.practicum.filmorate.dto.user.UserDtoHtml;
+import ru.yandex.practicum.filmorate.dto.user.UserHtmlDto;
 import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -28,7 +28,7 @@ public class UserWebController {
     // поэтому тут немножко костыль в виде отдельного DTO
     @GetMapping
     public String getUsers(Model model) {
-        List<UserDtoHtml> users = userService.getUsersForHTML();
+        List<UserHtmlDto> users = userService.getUsersForHTML();
         model.addAttribute("users", users);
         return "users/list";
     }

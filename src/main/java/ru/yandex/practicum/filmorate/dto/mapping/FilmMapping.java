@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.dto.mapping;
 import org.mapstruct.Mapper;
 import ru.yandex.practicum.filmorate.dto.film.FilmCreateDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmDto;
-import ru.yandex.practicum.filmorate.dto.film.FilmDtoHtml;
+import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmSimpleDto;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -14,7 +14,7 @@ public interface FilmMapping {
 
     FilmDto toDto(Film film);
 
-    FilmDtoHtml toDtoHtml(Film film);
+    FilmHtmlDto toDtoHtml(Film film);
 
     Film fromCreateDto(FilmCreateDto filmDto);
 

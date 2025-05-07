@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class FilmDtoHtml {
+public class FilmHtmlDto {
 
     private Long id;
     private String name;

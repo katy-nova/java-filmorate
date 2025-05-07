@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dto.film.FilmCreateDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmDto;
-import ru.yandex.practicum.filmorate.dto.film.FilmDtoHtml;
+import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.mapping.FilmMapping;
 import ru.yandex.practicum.filmorate.dto.mapping.ReviewMapping;
@@ -48,7 +48,7 @@ public class FilmServiceDB implements FilmService {
         return filmRepository.findAll().stream().map(filmMapping::toDto).collect(Collectors.toList());
     }
 
-    public List<FilmDtoHtml> getAllFilmsHtml() {
+    public List<FilmHtmlDto> getAllFilmsHtml() {
         return filmRepository.findAll().stream().map(filmMapping::toDtoHtml).collect(Collectors.toList());
     }
 

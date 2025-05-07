@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.dto.mapping;
 import org.mapstruct.Mapper;
 import ru.yandex.practicum.filmorate.dto.user.UserCreateDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDto;
-import ru.yandex.practicum.filmorate.dto.user.UserDtoHtml;
+import ru.yandex.practicum.filmorate.dto.user.UserHtmlDto;
 import ru.yandex.practicum.filmorate.dto.user.UserSimpleDto;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -13,7 +13,7 @@ public interface UserMapping {
 
     User fromDto(UserDto userDto);
 
-    UserDtoHtml toDtoHtml(User user);
+    UserHtmlDto toDtoHtml(User user);
 
     UserSimpleDto toDtoFriend(User user);
 
