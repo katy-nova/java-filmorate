@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.dto.film.FilmDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
-import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
 import ru.yandex.practicum.filmorate.service.implementation.FilmServiceDB;
 
 import java.math.BigDecimal;

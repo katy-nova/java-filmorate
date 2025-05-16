@@ -9,8 +9,8 @@ import ru.yandex.practicum.filmorate.dto.mapping.UserMapping;
 import ru.yandex.practicum.filmorate.dto.user.*;
 import ru.yandex.practicum.filmorate.exception.AlreadyExistsException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.Role;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.enums.Role;
+import ru.yandex.practicum.filmorate.model.entity.User;
 import ru.yandex.practicum.filmorate.repository.ReviewRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -141,39 +141,39 @@ public class UserServiceDB implements UserService {
                 });
     }
 
-    @Transactional
-    public UserDto addFriend(Long userId, Long friendId) {
-        User user = findById(userId);
-        User friend = findById(friendId);
-        user.addFriend(friend);
-        userRepository.save(user);
-        userRepository.save(friend);
-        return userMapping.toDto(user);
-    }
+//    @Transactional
+//    public UserDto addFriend(Long userId, Long friendId) {
+//        User user = findById(userId);
+//        User friend = findById(friendId);
+//        user.addFriend(friend);
+//        userRepository.save(user);
+//        userRepository.save(friend);
+//        return userMapping.toDto(user);
+//    }
 
-    @Override
-    @Transactional
-    public void removeFriend(Long userId, Long friendId) {
-        User user = findById(userId);
-        User friend = findById(friendId);
-        user.removeFriend(friend);
-        userRepository.save(user);
-        userRepository.save(friend);
-    }
-
-    @Override
-    public List<UserSimpleDto> getFriends(Long userId) {
-        User user = findById(userId);
-        return user.getFriends().stream().map(userMapping::toDtoFriend).toList();
-    }
-
-    @Override
-    public List<UserSimpleDto> getCommonFriends(Long userId, Long otherUserId) {
-        Set<User> friends1 = findById(userId).getFriends();
-        Set<User> friends2 = findById(otherUserId).getFriends();
-        Set<User> commonFriends = new HashSet<>(friends1);
-        commonFriends.retainAll(friends2);
-        return commonFriends.stream().map(userMapping::toDtoFriend).toList();
-    }
+//    @Override
+//    @Transactional
+//    public void removeFriend(Long userId, Long friendId) {
+//        User user = findById(userId);
+//        User friend = findById(friendId);
+//        user.removeFriend(friend);
+//        userRepository.save(user);
+//        userRepository.save(friend);
+//    }
+//
+//    @Override
+//    public List<UserSimpleDto> getFriends(Long userId) {
+//        User user = findById(userId);
+//        return user.getFriends().stream().map(userMapping::toDtoFriend).toList();
+//    }
+//
+//    @Override
+//    public List<UserSimpleDto> getCommonFriends(Long userId, Long otherUserId) {
+//        Set<User> friends1 = findById(userId).getFriends();
+//        Set<User> friends2 = findById(otherUserId).getFriends();
+//        Set<User> commonFriends = new HashSet<>(friends1);
+//        commonFriends.retainAll(friends2);
+//        return commonFriends.stream().map(userMapping::toDtoFriend).toList();
+//    }
 
 }

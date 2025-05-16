@@ -5,7 +5,7 @@ import ru.yandex.practicum.filmorate.dto.film.FilmCreateDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmSimpleDto;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.entity.Film;
 
 @Mapper(componentModel = "spring", uses = ReviewMapping.class)
 public interface FilmMapping {

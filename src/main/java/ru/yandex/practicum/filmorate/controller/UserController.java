@@ -6,11 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.dto.FriendshipDto;
 import ru.yandex.practicum.filmorate.dto.user.UserCreateDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDto;
 import ru.yandex.practicum.filmorate.dto.user.UserSimpleDto;
 import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
 import ru.yandex.practicum.filmorate.service.AuthenticationService;
+import ru.yandex.practicum.filmorate.service.FriendshipService;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class UserController {
 
     private final UserService userService;
     private final AuthenticationService authenticationService;
+    private final FriendshipService friendshipService;
 
     @GetMapping
     public List<UserDto> getUsers() {
@@ -53,25 +56,43 @@ public class UserController {
     }
 
     @PutMapping(path = "/{userId}/friends/{friendId}")
-    @PreAuthorize("@authenticationService.isCurrentUser(#userId) or @authenticationService.isAdmin()")
-    public UserDto addFriend(@PathVariable Long userId, @PathVariable Long friendId) {
-        return userService.addFriend(userId, friendId);
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
+    public FriendshipDto addFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        return friendshipService.sendRequest(userId, friendId);
+    }
+
+    @PutMapping(path = "/{userId}/friends/{friendId}/accept")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
+    public FriendshipDto acceptFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        return friendshipService.sendRequest(userId, friendId);
+    }
+
+    @PutMapping(path = "/{userId}/friends/{friendId}/block")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
+    public FriendshipDto blockFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        return friendshipService.addToBlackList(userId, friendId);
+    }
+
+    @DeleteMapping(path = "/{userId}/friends/{friendId}/block")
+    @PreAuthorize("@authenticationService.isCurrentUser(#userId)")
+    public void unblockFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        friendshipService.removeFromBlackList(userId, friendId);
     }
 
     @DeleteMapping(path = "/{userId}/friends/{friendId}")
     @PreAuthorize("@authenticationService.isCurrentUser(#userId) or @authenticationService.isAdmin()")
-    public void deleteFriend(@PathVariable Long userId, @PathVariable Long friendId) {
-        userService.removeFriend(userId, friendId);
+    public FriendshipDto deleteFriend(@PathVariable Long userId, @PathVariable Long friendId) {
+        return friendshipService.removeFromFriends(userId, friendId);
     }
 
     @GetMapping(path = "/{id}/friends")
     public List<UserSimpleDto> getFriends(@PathVariable Long id) {
-        return userService.getFriends(id);
+        return friendshipService.getFriendsByUserId(id);
     }
 
     @GetMapping(path = "/{id}/friends/common/{otherId}")
     public List<UserSimpleDto> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
-        return userService.getCommonFriends(id, otherId);
+        return friendshipService.getCommonFriends(id, otherId);
     }
 
     @PutMapping(path = "/admin/make/{id}")
@@ -88,6 +109,24 @@ public class UserController {
     public ResponseEntity<String> removeAdmin(@PathVariable Long id) {
         authenticationService.makeUser(id);
         String message = String.format("Для пользователя с id: %s аннулированы права администратора", id);
+        log.info(message);
+        return ResponseEntity.ok(message);
+    }
+
+    @PutMapping(path = "/admin/enable/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> enableUser(@PathVariable Long id) {
+        authenticationService.makeEnabled(id);
+        String message = String.format("Пользователь с id: %s активирован", id);
+        log.info(message);
+        return ResponseEntity.ok(message);
+    }
+
+    @PutMapping(path = "/admin/disable/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> disableUser(@PathVariable Long id) {
+        authenticationService.makeDisabled(id);
+        String message = String.format("Пользователь с id: %s деактивирован", id);
         log.info(message);
         return ResponseEntity.ok(message);
     }

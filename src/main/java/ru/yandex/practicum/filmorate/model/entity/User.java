@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -9,9 +9,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.thymeleaf.expression.Sets;
+import ru.yandex.practicum.filmorate.model.enums.Role;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -47,16 +50,37 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Review> reviews = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    private Set<User> friends = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Friendship> friendships = new HashSet<>();
 
-    @ManyToMany(mappedBy = "friends") // Обратная сторона связи
-    private Set<User> friendOf = new HashSet<>();
+    @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Friendship> friendsOf = new HashSet<>();
+
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinTable(
+//            name = "user_friends",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "friend_id")
+//    )
+//    private Set<User> friends = new HashSet<>();
+//
+//    @ManyToMany(mappedBy = "friends")
+//    private Set<User> friendOf = new HashSet<>();
+//
+//        public void addFriend(User friend) {
+//        this.friends.add(friend);
+//        friend.getFriends().add(this);
+//        friend.getFriendOf().add(this);
+//        this.friendOf.add(friend);
+//    }
+//
+//    public void removeFriend(User friend) {
+//        this.friends.remove(friend);
+//        friend.getFriends().remove(this);
+//        friend.getFriendOf().remove(this);
+//        this.friendOf.remove(friend);
+//    }
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_likes",
@@ -64,25 +88,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "film_id")
     )
     private Set<Film> likedFilms = new HashSet<>();
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public void addFriend(User friend) {
-        this.friends.add(friend);
-        friend.getFriends().add(this);
-        friend.getFriendOf().add(this);
-        this.friendOf.add(friend);
-    }
-
-    public void removeFriend(User friend) {
-        this.friends.remove(friend);
-        friend.getFriends().remove(this);
-        friend.getFriendOf().remove(this);
-        this.friendOf.remove(friend);
-    }
 
     public void likeFilm(Film film) {
         this.likedFilms.add(film);

@@ -15,8 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.yandex.practicum.filmorate.security.jwt.JwtFilter;
 
-import static ru.yandex.practicum.filmorate.model.Role.ADMIN;
-import static ru.yandex.practicum.filmorate.model.Role.USER;
+import static ru.yandex.practicum.filmorate.model.enums.Role.ADMIN;
+import static ru.yandex.practicum.filmorate.model.enums.Role.USER;
 
 @RequiredArgsConstructor
 @Configuration

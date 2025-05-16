@@ -10,7 +10,7 @@ import ru.yandex.practicum.filmorate.dto.user.UserCreateDto;
 import ru.yandex.practicum.filmorate.dto.user.UserDto;
 import ru.yandex.practicum.filmorate.dto.user.UserHtmlDto;
 import ru.yandex.practicum.filmorate.dto.user.UserUpdateDto;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.entity.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.List;

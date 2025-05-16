@@ -1,11 +1,12 @@
 package ru.yandex.practicum.filmorate.repository;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.entity.Film;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
 
     Optional<Film> findByName(String name);
 
-    Optional<Film> findById(long id);
+    Optional<Film> findById(Long id);
 
     List<Film> findByGenre(Genre genre);
 

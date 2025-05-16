@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.entity.User;
 
 import java.util.Collection;
 

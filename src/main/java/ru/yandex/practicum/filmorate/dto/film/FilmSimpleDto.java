@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.dto.film;
 
 import lombok.Data;
-import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
 
 @Data
 public class FilmSimpleDto {

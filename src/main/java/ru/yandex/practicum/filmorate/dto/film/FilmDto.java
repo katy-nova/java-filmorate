@@ -3,7 +3,8 @@ package ru.yandex.practicum.filmorate.dto.film;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
 import ru.yandex.practicum.filmorate.dto.user.UserSimpleDto;
-import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
+import ru.yandex.practicum.filmorate.model.enums.MPA;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class FilmDto {
     private Genre genre;
     private BigDecimal rating;
     private Integer duration;
+    private MPA mpaRating;
     private Set<ReviewDto> reviews;
     private Set<UserSimpleDto> likedBy;
 }

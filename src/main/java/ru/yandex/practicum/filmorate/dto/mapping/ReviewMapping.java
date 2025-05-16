@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
-import ru.yandex.practicum.filmorate.model.Review;
+import ru.yandex.practicum.filmorate.model.entity.Review;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 

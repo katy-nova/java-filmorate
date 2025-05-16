@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.dto.user;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.dto.film.FilmSimpleDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
-import ru.yandex.practicum.filmorate.model.Role;
+import ru.yandex.practicum.filmorate.model.enums.Role;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -19,6 +19,8 @@ public class UserDto {
     private String name;
 
     private LocalDate birthday;
+
+    private boolean enabled;
 
     private Set<ReviewDto> reviews;
 

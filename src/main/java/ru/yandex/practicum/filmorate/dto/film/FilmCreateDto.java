@@ -5,7 +5,8 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
+import ru.yandex.practicum.filmorate.model.enums.MPA;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,8 @@ public class FilmCreateDto {
     private LocalDate releaseDate;
 
     private Genre genre;
+
+    private MPA mpaRating;
 
     @Positive(message = "длительность фильма не может быть отрицательной")
     private int duration;

@@ -5,7 +5,8 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
+import ru.yandex.practicum.filmorate.model.enums.MPA;
 
 import java.time.LocalDate;
 
@@ -24,6 +25,9 @@ public class FilmUpdateDto {
 
     @Nullable
     private Genre genre;
+
+    @Nullable
+    private MPA mpaRating;
 
     @Positive
     @Nullable

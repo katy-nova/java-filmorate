@@ -6,8 +6,8 @@ import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewDto;
-import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.Review;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
+import ru.yandex.practicum.filmorate.model.entity.Review;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

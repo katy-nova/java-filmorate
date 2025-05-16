@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.yandex.practicum.filmorate.model.enums.Genre;
+import ru.yandex.practicum.filmorate.model.enums.MPA;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

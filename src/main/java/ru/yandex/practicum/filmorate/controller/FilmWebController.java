@@ -11,8 +11,8 @@ import ru.yandex.practicum.filmorate.dto.film.FilmDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmHtmlDto;
 import ru.yandex.practicum.filmorate.dto.film.FilmUpdateDto;
 import ru.yandex.practicum.filmorate.dto.review.ReviewCreateDto;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Review;
+import ru.yandex.practicum.filmorate.model.entity.Film;
+import ru.yandex.practicum.filmorate.model.entity.Review;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.HashMap;

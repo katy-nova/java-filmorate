@@ -20,12 +20,12 @@ public interface UserService {
 
     UserDto updateUser(Long id, UserUpdateDto user);
 
-    UserDto addFriend(Long userId, Long friendId);
+//    UserDto addFriend(Long userId, Long friendId);
 
-    void removeFriend(Long userId, Long friendId);
-
-    List<UserSimpleDto> getFriends(Long userId);
-
-    List<UserSimpleDto> getCommonFriends(Long userId, Long otherUserId);
+//    void removeFriend(Long userId, Long friendId);
+//
+//    List<UserSimpleDto> getFriends(Long userId);
+//
+//    List<UserSimpleDto> getCommonFriends(Long userId, Long otherUserId);
 
 }

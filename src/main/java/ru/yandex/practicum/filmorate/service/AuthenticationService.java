@@ -11,8 +11,8 @@ import ru.yandex.practicum.filmorate.dto.jwt.JwtAuthenticationDto;
 import ru.yandex.practicum.filmorate.dto.jwt.RefreshTokenDto;
 import ru.yandex.practicum.filmorate.dto.jwt.UserCredentialDto;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.Role;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.enums.Role;
+import ru.yandex.practicum.filmorate.model.entity.User;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.security.CustomUserDetails;
 import ru.yandex.practicum.filmorate.security.CustomUserServiceImpl;
@@ -80,13 +80,27 @@ public class AuthenticationService {
     }
 
     public void makeAdmin(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        User user = findUser(userId);
         user.makeAdmin();
     }
 
     public void makeUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        User user = findUser(userId);
         user.makeUser();
+    }
+
+    public void makeDisabled(Long userId) {
+        User user = findUser(userId);
+        user.setEnabled(false);
+    }
+
+    public void makeEnabled(Long userId) {
+        User user = findUser(userId);
+        user.setEnabled(true);
+    }
+
+    private User findUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
     }
 
 }
